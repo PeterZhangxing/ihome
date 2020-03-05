@@ -32,17 +32,18 @@ softVersion='2013-12-26'
 
 class CCP(object):
     """自己封装的发送短信的辅助类"""
-    # 用来保存对象的类属性
     instance = None
 
     def __new__(cls):
         # 判断CCP类有没有已经创建好的对象，如果没有，创建一个对象，并且保存
         # 如果有，则将保存的对象直接返回
+        # print('in new')
         if cls.instance is None:
             cls.instance = super(CCP, cls).__new__(cls)
         return cls.instance
 
     def __init__(self):
+        # print('in init')
         self.rest = REST(serverIP, serverPort, softVersion)
         self.rest.setAccount(accountSid, accountToken)
         self.rest.setAppId(appId)
@@ -71,5 +72,5 @@ class CCP(object):
 
 if __name__ == '__main__':
     ccp = CCP()
-    ret = ccp.send_template_sms("18516952650", ["1234", "5"], 1)
-    print(ret)
+    # ret = ccp.send_template_sms("18516952650", ["1234", "5"], 1)
+    # print(ret)
