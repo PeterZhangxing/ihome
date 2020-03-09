@@ -7,6 +7,7 @@ from flask import request
 from ihome.models import *
 import random
 from ihome.libs.yuntongxun.sms import CCP
+from ihome.tasks.task_sms import send_sms
 
 @api.route("/image_codes/<image_code_id>")
 def get_image_code(image_code_id):
@@ -81,15 +82,18 @@ def get_sms_code(mobile):
         current_app.logger.error(e)
         return jsonify(errno=RET.DBERR, errmsg="保存短信验证码异常")
 
-    try:
-        ccp = CCP()
-        result = ccp.send_template_sms(mobile, [sms_code, int(constants.SMS_CODE_REDIS_EXPIRES/60)], 1)
-    except Exception as e:
-        current_app.logger.error(e)
-        return jsonify(errno=RET.THIRDERR, errmsg="发送异常")
+    # try:
+    #     ccp = CCP()
+    #     result = ccp.send_template_sms(mobile, [sms_code, int(constants.SMS_CODE_REDIS_EXPIRES/60)], 1)
+    # except Exception as e:
+    #     current_app.logger.error(e)
+    #     return jsonify(errno=RET.THIRDERR, errmsg="发送异常")
+    #
+    # if result == 0:
+    #     # 发送成功
+    #     return jsonify(errno=RET.OK, errmsg="发送成功")
+    # else:
+    #     return jsonify(errno=RET.THIRDERR, errmsg="发送失败")
 
-    if result == 0:
-        # 发送成功
-        return jsonify(errno=RET.OK, errmsg="发送成功")
-    else:
-        return jsonify(errno=RET.THIRDERR, errmsg="发送失败")
+    send_sms.delay(mobile, [sms_code, int(constants.SMS_CODE_REDIS_EXPIRES/60)], 1)
+    return jsonify(errno=RET.OK, errmsg="发送成功")

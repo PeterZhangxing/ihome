@@ -8,6 +8,6 @@ def send_sms(to, datas, temp_id=1):
     """发送短信的异步任务"""
     ccp = CCP()
     ccp.send_template_sms(to, datas, temp_id)
-    
+
 # celery命令
 # celery -A ihome.tasks.task_sms worker -l info
