@@ -36,3 +36,5 @@ HOUSE_LIST_PAGE_CAPACITY = 2
 
 # 房屋列表页面页数缓存时间，单位秒
 HOUES_LIST_PAGE_REDIS_CACHE_EXPIRES = 7200
+
+ALIPAY_URL_PREFIX = "https://openapi.alipaydev.com/gateway.do?"

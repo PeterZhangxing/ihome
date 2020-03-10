@@ -25,4 +25,6 @@ def get_random_id(num):
     # print(''.join(res))
     return  ''.join(res)
 
-print(get_random_id(10))
+# print(get_random_id(10))
+
+# print(all((1,1,0)))

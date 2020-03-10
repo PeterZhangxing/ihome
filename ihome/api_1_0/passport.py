@@ -118,5 +118,7 @@ def check_login():
 
 @api.route("/session", methods=["DELETE"])
 def logout():
+    csrf_token = session.get('csrf_token')
     session.clear()
+    session['csrf_token'] = csrf_token
     return jsonify(errno=RET.OK, errmsg="OK")
